@@ -1,0 +1,52 @@
+.todoListNote {
+    background: white;
+    border: var(--border-medium);
+    display: flex;
+    flex-direction: column;
+    font-size: 24px;
+    letter-spacing: -0.01em;
+    line-height: 26px;
+    min-height: 500px;
+    padding: 20px;
+    position: relative;
+}
+
+.todoListNote::after {
+    border: var(--border-medium);
+    background: black;
+    content: "";
+    height: 100%;
+    left: 8px;
+    position: absolute;
+    top: 8px;
+    width: 100%;
+    z-index: -1;
+}
+
+.todoList {
+    list-style: none;
+    font-family: var(--font-inter);
+    list-style-position: inside;
+    margin: 0;
+    margin-bottom: 8px;
+    padding: 0;
+}
+
+.todoListItem {
+    margin: 12px 0;
+    padding: 8px 8px;
+}
+
+.todoHeading {
+    margin: 12px 8px;
+}
+
+input.todoListInput {
+    border: none;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 26px;
+    margin: auto 8px 8px 8px;
+    outline: var(--border-medium);
+    padding: 8px 16px;
+}
