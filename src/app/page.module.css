@@ -17,6 +17,7 @@
   padding: 24px;
 }
 
+
 @media (prefers-color-scheme: dark) {
   .page {
     --gray-rgb: 255, 255, 255;
@@ -30,22 +31,23 @@
 
 .main {
   grid-row: 2;
+  width: 100%;
 }
 
-.main .logo {
+.page .logo {
   bottom: 24px;
   left: 40px;
   position: fixed;
 }
 
-.main h1 {
+.page h1 {
   font-family: var(--font-abcromwide);
   font-size: 42px;
   line-height: 44px;
   text-transform: uppercase;
 }
 
-.main h2 {
+.page h2 {
   font-family: var(--font-abcromwide);
   font-size: 36px;
   line-height: 38px;

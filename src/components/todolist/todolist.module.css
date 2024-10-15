@@ -4,12 +4,28 @@
     display: flex;
     flex-direction: column;
     font-size: 24px;
+    height: 500px;
     letter-spacing: -0.01em;
     line-height: 26px;
-    min-height: 500px;
-    padding: 20px;
+    padding: 12px;
     position: relative;
 }
+
+.todoListScrollableContainer {
+    overflow-y: auto;
+    padding: 12px;
+    margin-bottom: 20px;
+    scroll-behavior: smooth;
+}
+
+.todoListScrollableContainer::-webkit-scrollbar {
+    width: 14px;
+}
+
+.todoListScrollableContainer::-webkit-scrollbar-thumb {
+    background-color: black;
+    padding: 0 4px;
+  }
 
 .todoListNote::after {
     border: var(--border-medium);
@@ -49,4 +65,8 @@ input.todoListInput {
     margin: auto 8px 8px 8px;
     outline: var(--border-medium);
     padding: 8px 16px;
+}
+
+input.todoListInput::placeholder {
+    color: black;
 }
