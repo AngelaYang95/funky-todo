@@ -9,7 +9,7 @@
   align-items: center;
   display: grid;
   gap: 24px;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 24px 1fr 24px;
   justify-items: center;
   font-family: var(--font-inter);
@@ -30,6 +30,7 @@
 }
 
 .main {
+  grid-column: 2;
   grid-row: 2;
   width: 100%;
 }

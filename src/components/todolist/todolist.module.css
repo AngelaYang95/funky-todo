@@ -13,7 +13,7 @@
 
 .todoListScrollableContainer {
     overflow-y: auto;
-    padding: 12px;
+    padding: 0 12px 12px 0;
     margin-bottom: 20px;
     scroll-behavior: smooth;
 }
@@ -49,12 +49,77 @@
 }
 
 .todoListItem {
-    margin: 12px 0;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    margin: 6px 0;
     padding: 8px 8px;
+    position: relative;
+}
+
+.todoListItem:hover {
+    /* background-color: black; */
+    /* color: white; */
+}
+
+.todoListItemText {
+    border-radius: 4px;
+    flex-grow: 1;
+    padding: 6px;
+}
+
+.todoListItem:hover .todoListItemText {
+    background-color: black;
+    color: white;
+}
+
+.todoListItem:last-child {
+    animation: showNewItemAnim 0.2s ease-in;
+}
+
+@keyframes showNewItemAnim {
+    0% { 
+        opacity: 0;
+        transform: translate3d(0, 12px, 0);
+    }
+    25% { 
+        opacity: 0;
+        transform: translate3d(0, 12px, 0);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {         
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.checkbox {
+    border: 7px black solid;
+    border-radius: 4px;
+    display: inline-block;
+    height: 40px;
+    margin-right: 8px;
+    transform: scale(1);
+    transition: all 0.2s ease-in;
+    width: 40px;
+}
+
+.checkbox .checkboxcheck {
+    transform: scale(0);
+    transition: transform 0.3s ease-in-out;
+}
+
+.checkbox[data-checked="true"] .checkboxcheck {
+    transform: scale(1);
+}
+
+.todoListItem:hover .checkbox {
+    transform: scale(1.1);
 }
 
 .todoHeading {
-    margin: 12px 8px;
+    margin: 6px 0 16px;
 }
 
 input.todoListInput {
@@ -65,8 +130,14 @@ input.todoListInput {
     margin: auto 8px 8px 8px;
     outline: var(--border-medium);
     padding: 8px 16px;
+    transition: all 0.2s ease-in;
 }
 
 input.todoListInput::placeholder {
     color: black;
+}
+
+input.todoListInput:hover,
+input.todoListInput:focus {
+    padding: 10px 16px;
 }
