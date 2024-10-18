@@ -57,11 +57,6 @@
     position: relative;
 }
 
-.todoListItem:hover {
-    /* background-color: black; */
-    /* color: white; */
-}
-
 .todoListItemText {
     border-radius: 4px;
     flex-grow: 1;
@@ -100,6 +95,7 @@
     display: inline-block;
     height: 40px;
     margin-right: 8px;
+    position: relative;
     transform: scale(1);
     transition: all 0.2s ease-in;
     width: 40px;
@@ -116,6 +112,28 @@
 
 .todoListItem:hover .checkbox {
     transform: scale(1.1);
+}
+
+.checkbox:after {
+    background: black;
+    top: -32px;
+    border-radius: 4px;
+    color: white;
+    content: 'Mark complete';
+    left: -50%;
+    padding: 6px;
+    opacity: 0;
+    position: absolute;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 10px;
+    text-align: center;
+    white-space: nowrap;
+    transition: all 0.2s ease-in 0.1s;
+}
+
+.todoListItem:hover .checkbox:after {
+    opacity: 100%;
 }
 
 .todoHeading {
