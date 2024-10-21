@@ -2,6 +2,10 @@
   --background: #ffffff;
   --foreground: #171717;
   --border-medium: 10px solid black;
+
+  --primary-purple: #cc77dd;
+  --primary-yellow: #ffd138;
+  --secondary-gray: #DBDBDB;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -14,11 +18,6 @@
 html,
 body {
   height: 100vh;
-  cursor: url('../../public/icons/MouseIconLarge.png'), auto;
-}
-
-body:focus {
-  cursor: url('../../public/icons/MouseIconLarge.png'), auto;
 }
 
 body {

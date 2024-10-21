@@ -61,6 +61,7 @@
     border-radius: 4px;
     flex-grow: 1;
     padding: 6px;
+    user-select: none;
 }
 
 .todoListItem:hover .todoListItemText {

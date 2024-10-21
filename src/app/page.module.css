@@ -5,18 +5,19 @@
 
   --button-primary-hover: #383838;
   --button-secondary-hover: #f2f2f2;
+  font-family: var(--font-inter);
+  font-weight: 800;
+  padding: 24px 40px;
+}
 
+.main {
   align-items: center;
   display: grid;
+  justify-items: center;
   gap: 24px;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 24px 1fr 24px;
-  justify-items: center;
-  font-family: var(--font-inter);
-  font-weight: 800;
-  padding: 24px;
 }
-
 
 @media (prefers-color-scheme: dark) {
   .page {
@@ -29,11 +30,26 @@
   }
 }
 
-.main {
+.todolistcontainer {
   grid-column: 2;
   grid-row: 2;
   width: 100%;
 }
+
+.toolbarcontainer {
+  position: fixed;
+  right: 40px;
+  top: 40px;
+}
+
+.page[data-current-tool="1"] {
+  cursor: url('../../public/icons/MouseIconLarge.png'), auto;
+}
+
+.page[data-current-tool="2"] {
+  cursor: url('../../public/icons/EraserIcon.png'), auto;
+}
+
 
 .page .logo {
   bottom: 24px;
@@ -67,7 +83,6 @@
   border: none;
   border: 1px solid transparent;
   transition: background 0.2s, color 0.2s, border-color 0.2s;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;

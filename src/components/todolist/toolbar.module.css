@@ -1,0 +1,69 @@
+
+.toolbar {
+    background-color: white;
+    position: relative;
+    border: var(--border-medium);
+}
+
+.toolbar:after {
+    border: var(--border-medium);
+    background: black;
+    content: "";
+    height: 100%;
+    left: 4px;
+    position: absolute;
+    top: 4px;
+    width: 100%;
+    z-index: -1;
+}
+
+.toolbaritem {
+    background: var(--secondary-gray);
+    border-bottom: var(--border-medium);
+    display: flex;
+    align-items: center;
+    height: 96px;
+    justify-content: center;
+    list-style: none;
+    position: relative;
+    width: 96px;
+    transition: background-color 0.2s ease-in;
+}
+
+.toolbaritem::after {
+    background-color: black;
+    border-radius: 4px;
+    bottom: 50%;
+    left: 50%;
+    color: white;
+    content: attr(data-tooltip);
+    opacity: 0;
+    padding: 4px 8px;
+    position: absolute;
+    transition: opacity 0.3s ease-in-out 0.2s;
+}
+
+.toolbaritem:hover::after {
+    opacity: 1;
+}
+
+.toolbaritem[data-tool="1"][data-is-active="true"] {
+    background: var(--primary-purple);
+}
+
+.toolbaritem[data-tool="2"][data-is-active="true"] {
+    background: var(--primary-yellow);
+}
+
+.toolbaritem:last-child {
+    border-bottom: none;
+}
+
+.lottie {
+    transform: scale(1.2);
+    transition: transform 0.2s ease-in-out;
+}
+
+.lottie:hover {
+    transform: scale(1.4);
+}
