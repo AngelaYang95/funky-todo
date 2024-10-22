@@ -93,6 +93,7 @@ interface ITodoListProps {
 }
 
 export default function TodoList(props: ITodoListProps) {
+    const [currDate, setDate] = useState(new Date());
     const scrollContainerRef = useRef<HTMLDivElement|null>(null);
 
     const [todoItemsData, setTodoItemsData] = useState([
@@ -136,6 +137,7 @@ export default function TodoList(props: ITodoListProps) {
     return (
         <>
             <div className={styles.todoListNote}>
+                <h6>Created on: {currDate.toLocaleString()}</h6>
                 <h2 className={styles.todoHeading}>{noteName}</h2>
                 <div ref={scrollContainerRef} className={styles.todoListScrollableContainer}>
                     <ol className={styles.todoList}>
@@ -148,7 +150,13 @@ export default function TodoList(props: ITodoListProps) {
                         )}
                     </ol>
                 </div>
-                <input onKeyUp={handleKeyPress} className={styles.todoListInput} type="text" id="new-todo" placeholder={inputPlaceholder}></input>
+                <input 
+                    id="new-todo" 
+                    type="text" 
+                    className={styles.todoListInput} 
+                    onKeyUp={handleKeyPress}
+                    disabled={props.currentTool !== ToolType.POINTER} 
+                    placeholder={inputPlaceholder}></input>
             </div>
         </>
     );

@@ -2,7 +2,7 @@
 
 import styles from "./page.module.css";
 import TodoList from "../components/todolist/todolist";
-import ToolBar from "../components/todolist/toolbar";
+import ToolBar from "../components/toolbar/toolbar";
 import {ITool, ToolType} from "../models";
 import { useState } from "react";
 
