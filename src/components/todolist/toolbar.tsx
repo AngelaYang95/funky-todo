@@ -1,9 +1,47 @@
 'use client';
 
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import React, { useEffect, useState } from "react";
+import { DotLottieReact, DotLottie } from '@lottiefiles/dotlottie-react';
+import React, { useRef } from "react";
 import styles from "./toolbar.module.css";
 import {ITool, ToolType} from "../../models";
+
+interface IToolbarItemProps {
+    currentTool: ToolType;
+    tool: ITool;
+    setCurrentTool: Function;
+}
+
+function ToolbarItem(props: IToolbarItemProps) {
+    let lottiePlayer = useRef<DotLottie>(null);
+    
+    function onToolClick(toolType: ToolType) {
+        props.setCurrentTool(toolType);
+    }
+    
+    function lottieRefCallback(lottie: DotLottie) {
+        lottiePlayer = {current: lottie};
+    }
+    
+    function onMouseEnter() {
+        if (lottiePlayer?.current) {
+            lottiePlayer!.current!.play();
+        }
+    }
+
+    return (
+        <li onClick={() => onToolClick(props.tool.type)} className={styles.toolbaritem}
+                onMouseOver={onMouseEnter}
+                data-tool={props.tool.type}
+                data-is-active={props.tool.type === props.currentTool}
+                data-tooltip={props.tool.tooltip}>
+            <DotLottieReact 
+                dotLottieRefCallback={lottieRefCallback}
+                className={styles.lottie}
+                src={props.tool.lottiePath}>
+                </DotLottieReact>
+        </li>
+    );
+}
 
 interface IToolbarProps {
     currentTool: ToolType;
@@ -12,23 +50,14 @@ interface IToolbarProps {
 }
 
 export default function ToolBar(props: IToolbarProps) {
-    function onToolClick(toolType: ToolType) {
-        props.setCurrentTool(toolType);
-    }
-
     return (
         <div className={styles.toolbar}>
             <ul>
                 {props.tools.map((tool: ITool, i: number) => (
-                    <li key={i} onClick={() => onToolClick(tool.type)} className={styles.toolbaritem}
-                            data-tool={tool.type}
-                            data-is-active={tool.type === props.currentTool}
-                            data-tooltip={tool.tooltip}>
-                        <DotLottieReact playOnHover
-                            className={styles.lottie}
-                            src={tool.lottiePath}>
-                            </DotLottieReact>
-                    </li>
+                    <ToolbarItem key={i}
+                        currentTool={props.currentTool} 
+                        tool={tool}
+                        setCurrentTool={props.setCurrentTool}></ToolbarItem>
                 ))}
             </ul>
         </div>

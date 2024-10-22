@@ -28,7 +28,7 @@ export default function Home() {
     <div className={styles.page} data-current-tool={currentTool}>
       <main className={styles.main}>
         <div className={styles.todolistcontainer}>
-          <TodoList></TodoList>
+          <TodoList currentTool={currentTool}></TodoList>
         </div>
         <div className={styles.toolbarcontainer}>
           <ToolBar tools={tools} setCurrentTool={setCurrentTool} currentTool={currentTool}></ToolBar>
