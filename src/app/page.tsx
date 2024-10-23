@@ -13,11 +13,13 @@ const tools: ITool[] = [
       type: ToolType.POINTER,
       lottiePath: "lottie/MouseIcon.json",
       tooltip: "pointer",
+      shortcut: "p",
   },
   {
       type: ToolType.ERASER,
       lottiePath: "lottie/EraserIcon.json",
       tooltip: "eraser",
+      shortcut: "r",
   }
 ];
 

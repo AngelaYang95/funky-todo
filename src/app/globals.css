@@ -2,9 +2,11 @@
   --background: #ffffff;
   --foreground: #171717;
   --border-medium: 10px solid black;
+  --border-medium-disabled: 10px solid var(--primary-gray);
 
   --primary-purple: #cc77dd;
   --primary-yellow: #ffd138;
+  --primary-gray: #8B8B8B;
   --secondary-gray: #DBDBDB;
 }
 

@@ -1,13 +1,13 @@
 
 export enum ToolType {
     POINTER = 1,
-    ERASER,
-    EDITOR,
-    MOVER,
+    ERASER = 2,
+    MOVER = 3,
 }
 
 export interface ITool {
     type: ToolType;
     lottiePath: string;
     tooltip: string;
+    shortcut: string;
 }

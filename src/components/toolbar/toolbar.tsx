@@ -8,7 +8,7 @@ import {ITool, ToolType} from "../../models";
 interface IToolbarItemProps {
     currentTool: ToolType;
     tool: ITool;
-    setCurrentTool: Function;
+    setCurrentTool: (toolType: ToolType) => void;
 }
 
 function ToolbarItem(props: IToolbarItemProps) {
@@ -46,7 +46,7 @@ function ToolbarItem(props: IToolbarItemProps) {
 interface IToolbarProps {
     currentTool: ToolType;
     tools: ITool[];
-    setCurrentTool: Function;
+    setCurrentTool: (toolType: ToolType) => void;
 }
 
 export default function ToolBar(props: IToolbarProps) {

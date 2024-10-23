@@ -7,7 +7,8 @@
   --button-secondary-hover: #f2f2f2;
   font-family: var(--font-inter);
   font-weight: 800;
-  padding: 24px 40px;
+  padding: 20px 40px 20px;
+  height: 100vh;
 }
 
 .main {
