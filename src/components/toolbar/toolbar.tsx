@@ -1,7 +1,7 @@
 'use client';
 
 import { DotLottieReact, DotLottie } from '@lottiefiles/dotlottie-react';
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./toolbar.module.css";
 import {ITool, ToolType} from "../../models";
 
@@ -12,19 +12,19 @@ interface IToolbarItemProps {
 }
 
 function ToolbarItem(props: IToolbarItemProps) {
-    let lottiePlayer = useRef<DotLottie>(null);
+    const [dotLottie, setDotLottie] = useState<DotLottie|null>(null);
     
     function onToolClick(toolType: ToolType) {
         props.setCurrentTool(toolType);
     }
     
-    function lottieRefCallback(lottie: DotLottie) {
-        lottiePlayer = {current: lottie};
+    function lottieRefCallback(dotLottie: DotLottie) {
+        setDotLottie(dotLottie);
     }
     
     function onMouseEnter() {
-        if (lottiePlayer?.current) {
-            lottiePlayer!.current!.play();
+        if (dotLottie) {
+            dotLottie.play();
         }
     }
 

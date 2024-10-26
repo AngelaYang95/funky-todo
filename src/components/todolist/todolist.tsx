@@ -1,12 +1,14 @@
 'use client';
 
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import styles from "./todolist.module.css";
 import React, { useRef, useState, useEffect } from 'react';
 import { ToolType } from "@/models";
 import { CSSProperties } from "react";
 
 const noteName: string = "TODAY'S TASKS";
-const inputPlaceholder: string = "So much to do...";
+const inputPlaceholder: string = "What's next?";
 
 /** Interface for representing a todo item. */
 interface ITodoListItem {
@@ -34,7 +36,7 @@ function TodoListItem(props: TodoListItemProps) {
                 props.deleteItem();
                 break;
             default:
-                console.log("INVALID MODE:");
+                console.error("Invalid tool type:", props.currentTool);
         }
     }
 
@@ -49,7 +51,7 @@ function TodoListItem(props: TodoListItemProps) {
             case ToolType.ERASER:
                 return deleteTooltip;
             default:
-                console.log("INVALID MODE:");
+                console.error("Invalid tool type:", props.currentTool);
         }
     }
 
@@ -97,9 +99,11 @@ interface ITodoListProps {
 }
 
 export default function TodoList(props: ITodoListProps) {
-    const [currDate] = useState(new Date());
     const scrollContainerRef = useRef<HTMLDivElement|null>(null);
-    
+    const todoListOverlay = useRef<HTMLDivElement|null>(null);
+    const headerRef = useRef<HTMLDivElement|null>(null);
+    const inputRef = useRef<HTMLInputElement|null>(null);
+
     const [todoItemsData, setTodoItemsData] = useState([
         {desc: "Call mum", isComplete: false},
         {desc: "Book doctor's appointment", isComplete: false},
@@ -117,6 +121,13 @@ export default function TodoList(props: ITodoListProps) {
             prevCount!.current! = todoItemsData.length;
         }
       }, [todoItemsData]);
+
+    useGSAP(() => {
+        const tl = gsap.timeline({});
+        tl.from(todoListOverlay!.current!, {top: "-20px", duration: 1, ease: "power2.inOut"});
+        tl.from(headerRef!.current!, {y: 10, opacity: 0, duration: 0.2}, 1);
+        tl.from(inputRef!.current!, {y: 10, opacity: 0, duration: 0.2}, 1);
+      }, {dependencies: [inputRef, headerRef], revertOnUpdate: true});
 
     function handleKeyPress(e: React.KeyboardEvent<HTMLInputElement>) {
         if (e.key === "Enter") {
@@ -148,10 +159,10 @@ export default function TodoList(props: ITodoListProps) {
     
     const maybeShowDisabledClass = props.currentTool !== ToolType.POINTER ? styles.todoListInputDisabled : "";
     return (
-        <>
+        <div className={styles.todoListWrapper}>
+            <span ref={todoListOverlay} className={styles.todolistoverlay}></span>
             <div className={styles.todoListNote}>
-                <h2 className={styles.todoHeading}>{noteName}</h2>
-                <h6 className={styles.todoDate}>Created on {currDate.toLocaleString()}</h6>
+                <h2 ref={headerRef} className={styles.todoHeading}>{noteName}</h2>
                 <div ref={scrollContainerRef} className={styles.todoListScrollableContainer}>
                     <ol className={styles.todoList}>
                         {todoItemsData.map((todoListItem: ITodoListItem, i: number) => 
@@ -171,6 +182,6 @@ export default function TodoList(props: ITodoListProps) {
                     disabled={props.currentTool !== ToolType.POINTER} 
                     placeholder={inputPlaceholder}></input>
             </div>
-        </>
+        </div>
     );
   }

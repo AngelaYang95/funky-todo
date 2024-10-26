@@ -1,0 +1,34 @@
+.overlay {
+    align-items: center;
+    background: white;
+    justify-content: center;
+    display: flex;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+}
+
+.window {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+}
+
+.story {
+    text-align: center;
+    position: absolute;
+    margin: auto;
+    opacity: 0;
+    top: 0;
+    transform: translateY(200px);
+}
+
+.skipMessage {
+    bottom: 40px;
+    position: fixed;
+}

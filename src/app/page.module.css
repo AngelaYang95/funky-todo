@@ -34,6 +34,7 @@
 .todolistcontainer {
   grid-column: 2;
   grid-row: 2;
+  position: relative;
   width: 100%;
 }
 
@@ -41,6 +42,10 @@
   position: fixed;
   right: 40px;
   top: 40px;
+}
+
+.page {
+  cursor: url('../../public/icons/MouseIconLarge.png'), auto;
 }
 
 .page[data-current-tool="1"] {
@@ -51,6 +56,9 @@
   cursor: url('../../public/icons/EraserIcon.png'), auto;
 }
 
+.page input:focus {
+  cursor: url('../../public/icons/MouseIconLarge.png'), auto;
+}
 
 .page .logo {
   bottom: 24px;
@@ -69,6 +77,13 @@
   font-family: var(--font-abcromwide);
   font-size: 36px;
   line-height: 38px;
+}
+
+.page h3 {
+  font-family: var(--font-abcromwide);
+  font-size: 24px;
+  line-height: 26px;
+  text-transform: uppercase;
 }
 
 .ctas {
