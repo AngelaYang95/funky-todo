@@ -44,7 +44,7 @@
   top: 40px;
 }
 
-/* .page {
+.page {
   cursor: url('../../public/icons/MouseIconLarge.png'), auto;
 }
 
@@ -58,7 +58,7 @@
 
 .page input:focus {
   cursor: url('../../public/icons/MouseIconLarge.png'), auto;
-} */
+}
 
 .page .logo {
   bottom: 24px;

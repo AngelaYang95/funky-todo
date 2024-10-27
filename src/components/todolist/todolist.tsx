@@ -25,34 +25,38 @@ interface TodoListItemProps {
 
 function TodoListItem(props: TodoListItemProps) {
     const checkboxRef = useRef<HTMLDivElement|null>(null);
-    const eraserTrailRef = useRef<HTMLDivElement|null>(null);
+    const eraseButtonRef = useRef<HTMLDivElement|null>(null);
     const textRef = useRef<HTMLDivElement|null>(null);
     const todoItemRef = useRef<HTMLLIElement|null>(null);
+    const runningAnimRef = useRef<boolean>(false);
     
-    const [tl, setTl] = useState<gsap.core.Timeline|null>(null);
+    // const [tl, setTl] = useState<gsap.core.Timeline|null>(null);
+    const tlRef = useRef<gsap.core.Timeline|null>(null);
 
     /** 
      * Calculates the scale to increase the erase trail element by.
      * from(0.5px) -> to(2px) = scale(4)
      */
-    function calcEraseTrailScalePercentage(): number {
-        const fromDiameter = eraserTrailRef!.current!.getBoundingClientRect().width;
+    function calcEraseButtonScalePercentage(): number {
+        const fromDiameter = eraseButtonRef!.current!.getBoundingClientRect().width;
         const toDiameter = todoItemRef!.current!.getBoundingClientRect().width;
         return toDiameter / fromDiameter * 2;
     }
 
     useGSAP(() => {
-        if (!eraserTrailRef?.current || !todoItemRef?.current) {
+        // Setup erase animation.
+        if (props.currentTool !== ToolType.ERASER || !eraseButtonRef?.current || !todoItemRef?.current) {
             return;
         }
 
         const eraseTl = gsap.timeline({paused: true});
-        eraseTl.to(eraserTrailRef!.current, {scale: calcEraseTrailScalePercentage(), duration: 0.75});
+        eraseTl.to(eraseButtonRef!.current, {scale: calcEraseButtonScalePercentage(), duration: 0.75});
         eraseTl.to(todoItemRef!.current, {height: 0, margin: 0, padding: 0, duration: 0.3, onComplete: () => {
-            console.log("Animation complete");
             props.deleteItem();
+            runningAnimRef.current = false;
         }}, "+=0");
-        setTl(eraseTl);
+        // setTl(eraseTl);
+        tlRef.current = eraseTl;
     }, {dependencies: [props.todoListItem, props.currentTool], revertOnUpdate: true});
 
     function handleMouseUp() {
@@ -102,20 +106,21 @@ function TodoListItem(props: TodoListItemProps) {
         }
     }
 
-    function handleEraserTrailDown() {
-        if (tl) {
-            tl.play();
+    function handleErase() {
+        if (tlRef?.current && !runningAnimRef.current) {
+            runningAnimRef.current = true;
+            tlRef!.current!.play();
         }
     }
 
-    function maybeRenderEraserTrail() {
+    function maybeRenderEraseButton() {
         if(props.currentTool !== ToolType.ERASER) {
             return;
         }
         return (
-            <span ref={eraserTrailRef} 
+            <span ref={eraseButtonRef} 
                 className={styles.eraserTrail}
-                onClick={handleEraserTrailDown}>
+                onClick={handleErase}>
             </span>
         );
     }
@@ -127,7 +132,7 @@ function TodoListItem(props: TodoListItemProps) {
                 data-is-complete={props.todoListItem.isComplete}
                 data-mode={props.currentTool}
                 >
-            {maybeRenderEraserTrail()}
+            {maybeRenderEraseButton()}
             <div ref={checkboxRef} className={styles.checkbox} data-tooltip={getTooltipText()} data-checked={props.todoListItem.isComplete + ""}>
                 <svg className={styles.checkboxcheck} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M4.875 14.5195L9.77344 19.1953L19.125 4.5" stroke="black" stroke-width="6" stroke-miterlimit="16" stroke-linecap="round" stroke-linejoin="round"/>
@@ -155,24 +160,26 @@ export default function TodoList(props: ITodoListProps) {
         {desc: "Finish history assignment", isComplete: false},
         {desc: "Buy birthday present for Addy", isComplete: false},
     ]);
-    const prevCount = useRef<number>(todoItemsData.length);
-
+    
     useEffect(() => {
-        if (scrollContainerRef?.current === null) {
+        if (!scrollContainerRef?.current) {
             return;
         }
-        if (prevCount?.current < todoItemsData.length) {
-            scrollContainerRef!.current!.scrollTo({top: scrollContainerRef!.current!.scrollHeight, left: 0, behavior: 'smooth'});
-            prevCount!.current! = todoItemsData.length;
-        }
-      }, [todoItemsData]);
+        scrollContainerRef!.current!.scrollTo({top: scrollContainerRef!.current!.scrollHeight, left: 0, behavior: 'smooth'});
+      }, [getLastItem()]);
 
     useGSAP(() => {
         const tl = gsap.timeline({});
         tl.from(todoListOverlay!.current!, {top: "-20px", duration: 1, ease: "power2.inOut"});
         tl.from(headerRef!.current!, {y: 10, opacity: 0, duration: 0.2}, 1);
         tl.from(inputRef!.current!, {y: 10, opacity: 0, duration: 0.2}, 1);
-      }, {dependencies: [inputRef, headerRef], revertOnUpdate: false});
+      }, {dependencies: [], revertOnUpdate: false});
+
+    function getLastItem(): ITodoListItem|null {
+        if (todoItemsData.length === 0) return null;
+
+        return todoItemsData[todoItemsData.length - 1];
+    }
 
     function handleKeyPress(e: React.KeyboardEvent<HTMLInputElement>) {
         if (e.key === "Enter") {
@@ -211,7 +218,7 @@ export default function TodoList(props: ITodoListProps) {
                 <div ref={scrollContainerRef} className={styles.todoListScrollableContainer}>
                     <ol className={styles.todoList}>
                         {todoItemsData.map((todoListItem: ITodoListItem, i: number) => 
-                            <TodoListItem key={i} 
+                            <TodoListItem key={i}
                                 currentTool={props.currentTool}
                                 todoListItem={todoListItem}
                                 toggleItemIsComplete={() => toggleIsComplete(i)}

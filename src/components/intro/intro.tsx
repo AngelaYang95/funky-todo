@@ -19,7 +19,7 @@ export default function Intro(props: IIntroProps) {
     const skipInstructions = null;
 
     useGSAP(() => {
-        console.log("init intro gsap timeline");
+        console.log("Init intro gsap timeline");
 
         const introTl = gsap.timeline({});
         introTl.fromTo("." + styles.story, {y: 200, opacity: 0, duration: 0.4}, {y: 0, opacity: 1, stagger: 1.5});

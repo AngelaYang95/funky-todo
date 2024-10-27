@@ -102,29 +102,13 @@
     color: var(--highlight-foreground);
 }
 
-@keyframes showNewItemAnim {
-    0% { 
-        opacity: 0;
-        transform: translate3d(0, 12px, 0);
-    }
-    25% { 
-        opacity: 0;
-        transform: translate3d(0, 12px, 0);
-    }
-    50% {
-        opacity: 1;
-    }
-    100% {         
-        transform: translate3d(0, 0, 0);
-    }
-}
-
 .checkbox {
     border: 7px black solid;
     border-radius: 4px;
     display: inline-block;
     height: 40px;
     margin-right: 8px;
+    min-width: 40px;
     overflow: hidden;
     position: relative;
     transform: scale(1);
@@ -154,6 +138,7 @@
         width: 40px;
         border-width: 7px;
         margin-right: 8px;
+        min-width: 40px;
     }
     50% {
         border-width: 7px;
@@ -164,6 +149,7 @@
     100% {         
         border-width: 0;
         margin-right: 0;
+        min-width: 0;
         width: 0;
     }
 }
