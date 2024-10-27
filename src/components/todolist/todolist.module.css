@@ -88,13 +88,13 @@
 }
 
 .eraserTrail {
-    border-radius: 40px;
+    border-radius: 12px;
     background-color: white;
-    height: 40px;
-    width: 40px;
+    height: 12px;
+    width: 12px;
     position: absolute;
-    top: calc(50% - 20px);
-    right: 24px;
+    top: calc(50% - 6px);
+    left: calc(50% - 6px);
 }
 
 .todoListItem:hover .todoListItemText {

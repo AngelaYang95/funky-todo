@@ -30,7 +30,6 @@ function TodoListItem(props: TodoListItemProps) {
     const todoItemRef = useRef<HTMLLIElement|null>(null);
     const runningAnimRef = useRef<boolean>(false);
     
-    // const [tl, setTl] = useState<gsap.core.Timeline|null>(null);
     const tlRef = useRef<gsap.core.Timeline|null>(null);
 
     /** 
@@ -40,7 +39,7 @@ function TodoListItem(props: TodoListItemProps) {
     function calcEraseButtonScalePercentage(): number {
         const fromDiameter = eraseButtonRef!.current!.getBoundingClientRect().width;
         const toDiameter = todoItemRef!.current!.getBoundingClientRect().width;
-        return toDiameter / fromDiameter * 2;
+        return toDiameter / fromDiameter;
     }
 
     useGSAP(() => {
@@ -50,12 +49,11 @@ function TodoListItem(props: TodoListItemProps) {
         }
 
         const eraseTl = gsap.timeline({paused: true});
-        eraseTl.to(eraseButtonRef!.current, {scale: calcEraseButtonScalePercentage(), duration: 0.75});
+        eraseTl.to(eraseButtonRef!.current, {scale: calcEraseButtonScalePercentage(), duration: 1});
         eraseTl.to(todoItemRef!.current, {height: 0, margin: 0, padding: 0, duration: 0.3, onComplete: () => {
             props.deleteItem();
             runningAnimRef.current = false;
         }}, "+=0");
-        // setTl(eraseTl);
         tlRef.current = eraseTl;
     }, {dependencies: [props.todoListItem, props.currentTool], revertOnUpdate: true});
 
@@ -65,6 +63,7 @@ function TodoListItem(props: TodoListItemProps) {
                 props.toggleItemIsComplete();
                 break;
             case ToolType.ERASER:
+                handleErase();
                 break;
             default:
                 console.error("Invalid tool type:", props.currentTool);
@@ -119,8 +118,7 @@ function TodoListItem(props: TodoListItemProps) {
         }
         return (
             <span ref={eraseButtonRef} 
-                className={styles.eraserTrail}
-                onClick={handleErase}>
+                className={styles.eraserTrail}>
             </span>
         );
     }
