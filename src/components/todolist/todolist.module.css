@@ -69,8 +69,14 @@
     display: flex;
     flex-direction: row;
     margin: 6px 0;
+    overflow: hidden;
     padding: 8px 8px;
     position: relative;
+}
+
+.todoListRemoveLabel {
+    position: absolute;
+    top: 100%;
 }
 
 .todoListItemText {
@@ -78,15 +84,22 @@
     flex-grow: 1;
     padding: 6px;
     user-select: none;
+    padding-right: 40px;
+}
+
+.eraserTrail {
+    border-radius: 40px;
+    background-color: white;
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    top: calc(50% - 20px);
+    right: 24px;
 }
 
 .todoListItem:hover .todoListItemText {
     background-color: var(--highlight-background);
     color: var(--highlight-foreground);
-}
-
-.todoListItem:last-child {
-    animation: showNewItemAnim 0.2s ease-in;
 }
 
 @keyframes showNewItemAnim {
@@ -157,27 +170,6 @@
 
 .todoListItem:not([data-mode="1"]) .checkboxcheck {
     transform: scale(0);
-}
-
-.todoListItemErase {
-    background: white;
-    backdrop-filter: blur(12px);
-    opacity: 0;
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    transition: all 0.5s ease-in-out;
-}
-
-.todoListItem[data-mode="2"]:hover .todoListItemErase {
-    right: 0;
-    opacity: 70%;
-}
-
-.todoListItem[data-mode="2"] .todoListItemErase.erased {
-    right: 0;
 }
 
 .checkbox:after {

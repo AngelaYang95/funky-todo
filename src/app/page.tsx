@@ -54,7 +54,7 @@ function MainApp() {
 }
 
 export default function Home() {
-  const [introComplete, setIntroComplete] = useState(false);
+  const [introComplete, setIntroComplete] = useState(true);
 
   if (!introComplete) {
     return (

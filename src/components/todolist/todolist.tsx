@@ -25,7 +25,35 @@ interface TodoListItemProps {
 
 function TodoListItem(props: TodoListItemProps) {
     const checkboxRef = useRef<HTMLDivElement|null>(null);
-    const eraseAnimRef = useRef<HTMLDivElement|null>(null);
+    const eraserTrailRef = useRef<HTMLDivElement|null>(null);
+    const textRef = useRef<HTMLDivElement|null>(null);
+    const todoItemRef = useRef<HTMLLIElement|null>(null);
+    
+    const [tl, setTl] = useState<gsap.core.Timeline|null>(null);
+
+    /** 
+     * Calculates the scale to increase the erase trail element by.
+     * from(0.5px) -> to(2px) = scale(4)
+     */
+    function calcEraseTrailScalePercentage(): number {
+        const fromDiameter = eraserTrailRef!.current!.getBoundingClientRect().width;
+        const toDiameter = todoItemRef!.current!.getBoundingClientRect().width;
+        return toDiameter / fromDiameter * 2;
+    }
+
+    useGSAP(() => {
+        if (!eraserTrailRef?.current || !todoItemRef?.current) {
+            return;
+        }
+
+        const eraseTl = gsap.timeline({paused: true});
+        eraseTl.to(eraserTrailRef!.current, {scale: calcEraseTrailScalePercentage(), duration: 0.75});
+        eraseTl.to(todoItemRef!.current, {height: 0, margin: 0, padding: 0, duration: 0.3, onComplete: () => {
+            console.log("Animation complete");
+            props.deleteItem();
+        }}, "+=0");
+        setTl(eraseTl);
+    }, {dependencies: [props.todoListItem, props.currentTool], revertOnUpdate: true});
 
     function handleMouseUp() {
         switch(props.currentTool) {
@@ -33,7 +61,6 @@ function TodoListItem(props: TodoListItemProps) {
                 props.toggleItemIsComplete();
                 break;
             case ToolType.ERASER:
-                props.deleteItem();
                 break;
             default:
                 console.error("Invalid tool type:", props.currentTool);
@@ -64,8 +91,7 @@ function TodoListItem(props: TodoListItemProps) {
                 } as CSSProperties;
             case ToolType.ERASER:
                 return {
-                    // "--highlight-background": "var(--primary-yellow)",
-                    "--highlight-background": "white",
+                    "--highlight-background": "var(--primary-yellow)",
                     "--highlight-foreground": "black",
                 } as CSSProperties;
             default:
@@ -76,19 +102,38 @@ function TodoListItem(props: TodoListItemProps) {
         }
     }
 
-    const maybeShowDisabledClass = props.currentTool !== ToolType.POINTER ? styles.todoListItemCheckboxDisabled : "";
+    function handleEraserTrailDown() {
+        if (tl) {
+            tl.play();
+        }
+    }
+
+    function maybeRenderEraserTrail() {
+        if(props.currentTool !== ToolType.ERASER) {
+            return;
+        }
+        return (
+            <span ref={eraserTrailRef} 
+                className={styles.eraserTrail}
+                onClick={handleEraserTrailDown}>
+            </span>
+        );
+    }
+    
     return (
-        <li className={styles.todoListItem} onClick={handleMouseUp} 
-            data-is-complete={props.todoListItem.isComplete}
-            data-mode={props.currentTool}
-            style={getHighlightColor()}>
-            <span ref={eraseAnimRef} className={styles.todoListItemErase}></span>
-            <div ref={checkboxRef} className={`${styles.checkbox} ${maybeShowDisabledClass}`} data-tooltip={getTooltipText()} data-checked={props.todoListItem.isComplete + ""}>
+        <li ref={todoItemRef} className={styles.todoListItem} 
+                style={getHighlightColor()}
+                onClick={handleMouseUp}
+                data-is-complete={props.todoListItem.isComplete}
+                data-mode={props.currentTool}
+                >
+            {maybeRenderEraserTrail()}
+            <div ref={checkboxRef} className={styles.checkbox} data-tooltip={getTooltipText()} data-checked={props.todoListItem.isComplete + ""}>
                 <svg className={styles.checkboxcheck} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M4.875 14.5195L9.77344 19.1953L19.125 4.5" stroke="black" stroke-width="6" stroke-miterlimit="16" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </div>
-            <div className={styles.todoListItemText}>{props.todoListItem.desc}</div>
+            <div ref={textRef} className={styles.todoListItemText}>{props.todoListItem.desc}</div>
         </li>
     );
 }
@@ -127,7 +172,7 @@ export default function TodoList(props: ITodoListProps) {
         tl.from(todoListOverlay!.current!, {top: "-20px", duration: 1, ease: "power2.inOut"});
         tl.from(headerRef!.current!, {y: 10, opacity: 0, duration: 0.2}, 1);
         tl.from(inputRef!.current!, {y: 10, opacity: 0, duration: 0.2}, 1);
-      }, {dependencies: [inputRef, headerRef], revertOnUpdate: true});
+      }, {dependencies: [inputRef, headerRef], revertOnUpdate: false});
 
     function handleKeyPress(e: React.KeyboardEvent<HTMLInputElement>) {
         if (e.key === "Enter") {
