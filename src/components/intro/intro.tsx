@@ -1,7 +1,7 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import styles from "./intro.module.css";
-import React, { useEffect } from "react";
+import React from "react";
 
 interface IIntroProps {
     onIntroComplete: () => void;
@@ -16,7 +16,6 @@ export default function Intro(props: IIntroProps) {
         "(but funky)",
     ];
 
-    // const skipInstructions = "Press 's' to skip";
     const skipInstructions = null;
 
     useGSAP(() => {
@@ -28,13 +27,6 @@ export default function Intro(props: IIntroProps) {
         introTl.to("." + styles.skipMessage, {y: 100, opacity: 0, duration: 0.2});
         introTl.to("." + styles.window, {opacity: 0, onComplete: props.onIntroComplete}, "+=0.1");
       }, {});
-
-    function onKeyDown(e: React.KeyboardEvent) {
-        console.log(e);
-        if (e.key === 's') {
-            props.onIntroComplete();
-        }
-    }
 
     return (
         <div className={styles.overlay}>
