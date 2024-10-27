@@ -1,7 +1,7 @@
 'use client';
 
 import { DotLottieReact, DotLottie } from '@lottiefiles/dotlottie-react';
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import styles from "./toolbar.module.css";
 import {ITool, ToolType} from "../../models";
 
