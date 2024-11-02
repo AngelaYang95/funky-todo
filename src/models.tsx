@@ -11,3 +11,8 @@ export interface ITool {
     tooltip: string;
     shortcut: string;
 }
+
+export interface ITodoListItem {
+    desc: string;
+    isComplete?: boolean;
+}

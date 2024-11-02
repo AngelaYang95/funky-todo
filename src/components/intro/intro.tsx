@@ -7,17 +7,17 @@ interface IIntroProps {
     onIntroComplete: () => void;
 }
 
+const stories = [
+    "There always so much to do",
+    "not enough time",
+    "not enough coffee",
+    "so here's yet another todo list",
+    "(but funky)",
+];
+const skipInstructions = null;
+
 export default function Intro(props: IIntroProps) {
-    const stories = [
-        "There always so much to do",
-        "not enough time",
-        "not enough coffee",
-        "so here's yet another todo list",
-        "(but funky)",
-    ];
-
-    const skipInstructions = null;
-
+    
     useGSAP(() => {
         console.log("Init intro gsap timeline");
 
