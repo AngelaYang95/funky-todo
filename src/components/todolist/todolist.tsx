@@ -79,7 +79,7 @@ const TodoList = (props: ITodoListProps) => {
     }, [todoItemsData]);
 
     const deleteItem = useCallback((index: number) => {
-        setTodoItemsData(todoItemsData.filter((todoItem, i) => {
+        setTodoItemsData(todoItems => todoItems.filter((todoItem, i) => {
             return i !== index;
         }));
     }, [todoItemsData]);
