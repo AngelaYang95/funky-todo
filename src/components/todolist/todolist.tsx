@@ -32,7 +32,7 @@ const TodoList = (props: ITodoListProps) => {
     const inputRef = useRef<HTMLInputElement|null>(null);
 
     const [todoItemsData, setTodoItemsData] = useState(createInitialTodos);
-    const previousItemCount = usePrevious(todoItemsData.length);
+    const previousItemCount = usePrevious(todoItemsData.length) as number;
     
     useEffect(() => {
         if (!scrollContainerRef?.current) {
