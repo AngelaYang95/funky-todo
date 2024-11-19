@@ -3,7 +3,7 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import styles from "./todolistitem.module.css";
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useState } from 'react';
 import { ToolType, ITodoListItem } from "@/models";
 import { CSSProperties } from "react";
 
@@ -22,6 +22,7 @@ export default function TodoListItem(props: ITodoListItemProps) {
     const todoItemRef = useRef<HTMLLIElement|null>(null);
     
     const tlRef = useRef<gsap.core.Timeline|null>(null);
+    const [isAnimatingErase, setIsAnimatingErase] = useState<boolean>(false);
 
     /** 
      * Calculates the scale to increase the erase trail element by.
@@ -42,6 +43,7 @@ export default function TodoListItem(props: ITodoListItemProps) {
         const eraseTl = gsap.timeline({paused: true});
         eraseTl.to(eraseButtonRef!.current, {scale: calcEraseButtonScalePercentage(), duration: 1});
         eraseTl.to(todoItemRef!.current, {height: 0, margin: 0, padding: 0, duration: 0.3, onComplete: () => {
+            setIsAnimatingErase(false);
             props.deleteItem();
         }}, "+=0");
         tlRef.current = eraseTl;
@@ -81,13 +83,15 @@ export default function TodoListItem(props: ITodoListItemProps) {
     }, [props.currentTool]);
 
     const handleErase = useCallback(() => {
+        setIsAnimatingErase(true);
         if (tlRef?.current) {
             tlRef!.current!.play();
         }
     }, [tlRef]);
-    
+
+    console.log("rendering...");
     return (
-        <li ref={todoItemRef} className={styles.todoListItem} 
+        <li ref={todoItemRef} className={`${styles.todoListItem} ${isAnimatingErase ? styles.isAnimatingErase : ""}`} 
                 style={getHighlightColor()}
                 onClick={handleMouseUp}
                 data-is-complete={props.todoListItem.isComplete}
