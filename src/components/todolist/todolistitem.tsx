@@ -89,7 +89,6 @@ export default function TodoListItem(props: ITodoListItemProps) {
         }
     }, [tlRef]);
 
-    console.log("rendering...");
     return (
         <li ref={todoItemRef} className={`${styles.todoListItem} ${isAnimatingErase ? styles.isAnimatingErase : ""}`} 
                 style={getHighlightColor()}
