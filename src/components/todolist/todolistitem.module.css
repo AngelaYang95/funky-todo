@@ -16,14 +16,19 @@
     padding-right: 40px;
 }
 
+.todoListItem:hover .eraserTrail {
+    opacity: 1;
+}
+
 .eraserTrail {
     background-color: white;
     border-radius: 12px;
     height: 12px;
     left: calc(50% - 6px);
-    opacity: 1;
+    opacity: 0;
     position: absolute;
     top: calc(50% - 6px);
+    transition: opacity 0.2s ease-in; 
     width: 12px;
 }
 

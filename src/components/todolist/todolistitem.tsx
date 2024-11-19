@@ -95,9 +95,7 @@ export default function TodoListItem(props: ITodoListItemProps) {
                 >
             {
                 props.currentTool === ToolType.ERASER ? 
-                (<span ref={eraseButtonRef} 
-                    className={styles.eraserTrail}>
-                </span>) : (<></>)
+                (<span ref={eraseButtonRef} className={styles.eraserTrail}></span>) : (<></>)
             }
             <div ref={checkboxRef} className={styles.checkbox} data-checked={props.todoListItem.isComplete + ""}>
                 <svg className={styles.checkboxcheck} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
